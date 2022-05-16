@@ -26,12 +26,12 @@ export default function Header() {
   return (
     <mui.Box sx={{ flexGrow: 1 }}>
         <mui.AppBar position="static" 
-            style={{ background: 'transparent', boxShadow: 'none'}}
+            sx={{ background: 'transparent', boxShadow: 'none', flexDirection: 'row'}}
             >
-            <mui.Toolbar>
-                <div style={{ flexGrow: 1, display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'flex-end'}}>
-                    <img src={Logo} alt='logo' width='40px' height='40px' />
-                    <mui.Typography variant="h6" component="div" color='black'>
+            {/* <mui.Toolbar> */}
+                <div style={{ flexGrow: 4/5, display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'flex-end'}}>
+                    <img src={Logo} alt='logo' width='60px' height='60px' />
+                    <mui.Typography variant="h5" component="div" color='black'>
                         KRYPTO
                     </mui.Typography>
                 </div>
@@ -43,7 +43,7 @@ export default function Header() {
                 <ColorButton variant="outlined" color="warning" size='large' startIcon={<AccountCircleIcon />} sx={{marginLeft: 2}}>Login</ColorButton>
                 <MenuIcon className='show_content' color='warning'/>
 
-            </mui.Toolbar>
+            {/* </mui.Toolbar> */}
         </mui.AppBar>
     </mui.Box>
   )
