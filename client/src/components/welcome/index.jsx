@@ -6,6 +6,9 @@ import { styled } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import Tilt from 'react-parallax-tilt';
 
+import back from '../../assets/background1.svg';
+
+
 const style = {
     table1: {border: '3px solid black', borderTopLeftRadius: '15px', padding: '25px 65px', fontSize: '25px', textAlign: 'center',},
     table2: {border: '3px solid black', padding: '25px 65px', fontSize: '25px', textAlign: 'center'},
@@ -22,7 +25,7 @@ const ColorButton = styled(mui.Button)(({ theme }) => ({
     color: theme.palette.getContrastText(orange[500]),
     backgroundColor: "orange",
     fontWeight: '600',
-    color: "black",
+    // color: "black",
     '&:hover': {
       backgroundColor: orange[500],
       color: "#1a1a1a",
@@ -49,15 +52,20 @@ export default function Welcome() {
     return (
         <mui.Box
             sx={{
-                flexGrow: 1,
-                height: 800
+                // flexGrow: 1,
+                // height: 800
+                height: 690,
+                // backgroundImage: `url(${back})`,
+                // backgroundRepeat:'no-repeat',
+                // backgroundPosition: 'center',
+                // backgroundSize: 'cover'
             }}
         >
             <mui.Grid container>
-                <mui.Grid item xs={12} md={6} sx={{ height: 630, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center'}}>
+                <mui.Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center'}}>
                     <span className='header_font' style={{fontSize: '70px', color: 'orange'}} >SEND CRYPTO</span>
                     <span className='header_font' style={{fontSize: '70px', color: 'black', marginTop: '-20px'}} >ACROSS THE WORLD</span>
-                    <span className='sub_header_font' style={{fontSize: '17px', color: 'black', fontWeight: '500', marginTop: '10px'}}>Explore the world of BloackChain Technology. KRYPTO is an Etherium based Crypocurrency Wallet. Buy and Sell cryptocurrency using KRYPTO</span>
+                    <span className='sub_header_font' style={{fontSize: '17px', color: 'black', fontWeight: '600', marginTop: '10px'}}>Explore the world of BloackChain Technology. KRYPTO is an Etherium based Crypocurrency Wallet. Buy and Sell cryptocurrency using KRYPTO</span>
 
                     <ColorButton variant="contained" size="large" startIcon={<AccountBalanceWalletIcon />} sx={{marginTop: '20px', borderRadius: '10px' }}>Connet Wallet</ColorButton>
 
@@ -86,8 +94,8 @@ export default function Welcome() {
                                 // },
                             }}
                         >
-                                <input type='text' placeholder='Address To' style={style.inputField} />
-                                <input type='text' placeholder='Amount (ETH)' style={style.inputField} />
+                                <input type='text' name='addressTo' placeholder='Address To' style={style.inputField} />
+                                <input type='text' name='amount' placeholder='Amount (ETH)' style={style.inputField} />
                                 <ColorButton variant="contained" size="large" startIcon={<SendIcon />} sx={{width: '100%', marginTop: '15px', borderRadius: '10px' }}>Send Etherium</ColorButton>
                         </mui.Box>
                     </mui.Grid>
