@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import * as mui from '@mui/material';
 import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import SendIcon from '@mui/icons-material/Send';
@@ -7,6 +7,7 @@ import { orange } from '@mui/material/colors';
 import Tilt from 'react-parallax-tilt';
 
 import back from '../../assets/background1.svg';
+import { transactionContext } from '../../context/transaction-context'
 
 
 const style = {
@@ -34,7 +35,7 @@ const ColorButton = styled(mui.Button)(({ theme }) => ({
 
 
 const table = [
-    <table style={{marginTop: '30px'}}> 
+    <table style={{marginTop: '70px'}}> 
         <tr>
             <td className='header_font' style={style.table1}>Etherium</td>
             <td className='header_font' style={style.table2}>Reliable</td>
@@ -49,9 +50,19 @@ const table = [
 ];
 
 export default function Welcome() {
+    const { connectWallet, connectedAccount, handleChange, formData, sendTransaction } = useContext(transactionContext);
+
+    const handleSendCrypto = (e) => {
+        e.preventDefault();
+        const { addressTo, amount } = formData;
+
+        sendTransaction();
+    }
+
     return (
         <mui.Box
             sx={{
+                margin: '50px 0',
                 // flexGrow: 1,
                 // height: 800
                 height: 690,
@@ -67,7 +78,15 @@ export default function Welcome() {
                     <span className='header_font' style={{fontSize: '70px', color: 'black', marginTop: '-20px'}} >ACROSS THE WORLD</span>
                     <span className='sub_header_font' style={{fontSize: '17px', color: 'black', fontWeight: '600', marginTop: '10px'}}>Explore the world of BloackChain Technology. KRYPTO is an Etherium based Crypocurrency Wallet. Buy and Sell cryptocurrency using KRYPTO</span>
 
-                    <ColorButton variant="contained" size="large" startIcon={<AccountBalanceWalletIcon />} sx={{marginTop: '20px', borderRadius: '10px' }}>Connet Wallet</ColorButton>
+                    <ColorButton 
+                        variant="contained" 
+                        size="large"  startIcon={<AccountBalanceWalletIcon />} 
+                        sx={{marginTop: '20px', borderRadius: '10px' }}
+                        disabled={connectedAccount ? true : false }
+                        onClick={connectWallet}
+                    >
+                        {connectedAccount ? "Connected" : "Connect Wallet" }
+                    </ColorButton>
 
                     {table}
                 </mui.Grid>
@@ -80,10 +99,10 @@ export default function Welcome() {
                             </div>
                         </Tilt>
                     </mui.Grid>
-                    <mui.Grid container item xs={12} md={12} sx={{height: 1}} justifyContent="center" alignItems="flex-start">
+                    <mui.Grid container item xs={12} md={12} sx={{height: 1/2}} justifyContent="center" alignItems="flex-start">
                         <mui.Box
                             sx={{
-                                marginTop: '20px',
+                                marginTop: '30px',
                                 padding: '10px 15px',
                                 width: 2/3,
                                 height: 'auto',
@@ -94,9 +113,17 @@ export default function Welcome() {
                                 // },
                             }}
                         >
-                                <input type='text' name='addressTo' placeholder='Address To' style={style.inputField} />
-                                <input type='text' name='amount' placeholder='Amount (ETH)' style={style.inputField} />
-                                <ColorButton variant="contained" size="large" startIcon={<SendIcon />} sx={{width: '100%', marginTop: '15px', borderRadius: '10px' }}>Send Etherium</ColorButton>
+                                <input type='text' name='addressTo' placeholder='Address To' style={style.inputField} onChange={handleChange} />
+                                <input type='text' name='amount' placeholder='Amount (ETH)' style={style.inputField} onChange={handleChange}/>
+                                <ColorButton 
+                                    variant="contained" 
+                                    size="large" 
+                                    startIcon={<SendIcon />} 
+                                    sx={{width: '100%', marginTop: '15px', borderRadius: '10px' }}
+                                    onClick={handleSendCrypto}
+                                >
+                                    Send Etherium
+                                </ColorButton>
                         </mui.Box>
                     </mui.Grid>
                 </mui.Grid>
