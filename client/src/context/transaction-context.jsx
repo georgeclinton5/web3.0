@@ -67,40 +67,46 @@ export const TransactionProvider = ({children}) => {
     const sendTransaction = async () => {
         try {
             if(!ethereum) return alert('Please Install Metamask Wallet');
+
             const { addressTo, amount } = formData;
             const transactionContract = getEthereumContract();
             const parsedAmt = ethers.utils.parseEther(amount);
-
-            const gaslimit = ethers.transac
-
-            console.log(parsedAmt)
-            console.log("...............")
-            console.log(transactionContract.AddToBlockchain)
-
-            await ethereum.request({
-                method: 'eth_sendTransaction',
-                params: [{
-                    from: connectedAccount,
-                    to: addressTo,
-                    gasLimit: '0x61A8',
-                    // gas: '0x5208', //2100 GWEI
-                    value: parsedAmt._hex,
-                    // nonce: nonce || undefined,
-                }]
-            });
-
-            const transactionHash = await transactionContract.AddToBlockchain(addressTo, parsedAmt);
-
-            setIsLoading(true); 
-            console.log(`Loading - ${transactionHash.hash}`);   
-            await transactionHash.wait();
-
-            setIsLoading(false); 
-            console.log(`Success - ${transactionHash.hash}`);
-
-            const transactionCount = await transactionContract.getTransactionCount();
-            setTransactionCount(transactionCount);
             
+            if(amount.length){
+                setIsLoading(true); 
+
+                await ethereum.request({
+                    method: 'eth_sendTransaction',
+                    params: [{
+                        from: connectedAccount,
+                        to: addressTo,
+                        gasLimit: '0x186A0', 
+                        gas: '0x5208', //2100 GWEI
+                        value: parsedAmt._hex,
+                        // nonce: nonce || undefined,
+                    }]
+                });
+
+                console.log("woooooo")
+                setIsLoading(false); 
+                console.log({isLoading})
+                
+                // const transactionHash = await transactionContract.AddToBlockchain(addressTo, parsedAmt, [] , {
+                //     gasLimit: '0x186A0',
+                //     // nonce: nonce || undefined,
+                // });
+                // console.log({transactionHash})
+
+                // 
+                // console.log(`Loading - ${transactionHash.hash}`);   
+                // await transactionHash.wait();
+
+                // console.log(`Success - ${transactionHash.hash}`);
+                // setIsLoading(false); 
+
+                // const transactionCount = await transactionContract.getTransactionCount();
+                // setTransactionCount(transactionCount);
+            }
         } 
         catch (error) {
             console.log(error);
@@ -113,7 +119,7 @@ export const TransactionProvider = ({children}) => {
     }, []);
 
     return(
-        <transactionContext.Provider value={{ connectWallet, connectedAccount, handleChange, formData, sendTransaction }}>
+        <transactionContext.Provider value={{ connectWallet, connectedAccount, handleChange, formData, sendTransaction, isLoading }}>
             {children}
         </transactionContext.Provider>
     )

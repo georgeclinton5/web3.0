@@ -5,6 +5,8 @@ import SendIcon from '@mui/icons-material/Send';
 import { styled } from '@mui/material/styles';
 import { orange } from '@mui/material/colors';
 import Tilt from 'react-parallax-tilt';
+import Etherum_logo from '../../assets/ethereum.png'
+import Etherum_logo1 from '../../assets/eth.png'
 
 import back from '../../assets/background1.svg';
 import { transactionContext } from '../../context/transaction-context'
@@ -17,7 +19,7 @@ const style = {
     table4: {border: '3px solid black', borderBottomLeftRadius: '15px', padding: '25px 65px', fontSize: '25px', textAlign: 'center'},
     table5: {border: '3px solid black', borderBottomRightRadius: '15px', padding: '25px 65px', fontSize: '25px', textAlign: 'center'},
     inputField: {marginTop: '15px', height: '45px', width: '96%', borderRadius: '9px', background: 'black', color: 'orange', fontSize: '18px', paddingLeft: '15px'},
-    card: { height: '280px', width: '480px', borderRadius: '20px', background: 'url("https://wallpaperboat.com/wp-content/uploads/2019/06/black-and-orange-08-920x518.jpg") no-repeat fixed center' }
+    card: { height: '280px', width: '480px', borderRadius: '20px', display:'flex', flexDirection:'column', justifyContent:'space-between', background: 'url("https://wallpaperboat.com/wp-content/uploads/2019/06/black-and-orange-08-920x518.jpg") no-repeat fixed center' }
 }
 
 const ColorButton = styled(mui.Button)(({ theme }) => ({
@@ -50,13 +52,14 @@ const table = [
 ];
 
 export default function Welcome() {
-    const { connectWallet, connectedAccount, handleChange, formData, sendTransaction } = useContext(transactionContext);
+    const { connectWallet, connectedAccount, handleChange, formData, sendTransaction , isLoading} = useContext(transactionContext);
 
     const handleSendCrypto = (e) => {
         e.preventDefault();
         const { addressTo, amount } = formData;
-
-        sendTransaction();
+        if(amount.length && addressTo.length){
+            sendTransaction();
+        }
     }
 
     return (
@@ -65,7 +68,7 @@ export default function Welcome() {
                 margin: '50px 0',
                 // flexGrow: 1,
                 // height: 800
-                height: 690,
+                // height: 660,
                 // backgroundImage: `url(${back})`,
                 // backgroundRepeat:'no-repeat',
                 // backgroundPosition: 'center',
@@ -73,7 +76,7 @@ export default function Welcome() {
             }}
         >
             <mui.Grid container>
-                <mui.Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center'}}>
+                <mui.Grid item xs={12} md={12} lg={6} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', justifyContent: 'center'}}>
                     <span className='header_font' style={{fontSize: '70px', color: 'orange'}} >SEND CRYPTO</span>
                     <span className='header_font' style={{fontSize: '70px', color: 'black', marginTop: '-20px'}} >ACROSS THE WORLD</span>
                     <span className='sub_header_font' style={{fontSize: '17px', color: 'black', fontWeight: '600', marginTop: '10px'}}>Explore the world of BloackChain Technology. KRYPTO is an Etherium based Crypocurrency Wallet. Buy and Sell cryptocurrency using KRYPTO</span>
@@ -91,11 +94,15 @@ export default function Welcome() {
                     {table}
                 </mui.Grid>
 
-                <mui.Grid container item xs={12} md={6} justifyContent="center" alignItems="center" >
+                <mui.Grid container item xs={12} md={12} lg={6} justifyContent="center" alignItems="center" >
                     <mui.Grid container item xs={12} md={12} sx={{height: 1/2}} justifyContent="center" alignItems="center">
                         <Tilt glareEnable={false} glareMaxOpacity={0.9} glareColor="white" glarePosition="all" glareBorderRadius="20px" style={{paddingTop: '40px'}}>
                             <div style={style.card}>
-                            
+                                <img src={Etherum_logo1} style={{margin: '20px 20px'}} width='75px' height='115px' />
+                                <div style={{ margin: '0 0 60px 15px', display: 'flex', flexDirection:'column'}}>
+                                    <span style={{color:'grey'}} >{connectedAccount}</span>
+                                    <span style={{color:'grey'}} >MetaMask Account</span>
+                                </div>
                             </div>
                         </Tilt>
                     </mui.Grid>
@@ -121,9 +128,11 @@ export default function Welcome() {
                                     startIcon={<SendIcon />} 
                                     sx={{width: '100%', marginTop: '15px', borderRadius: '10px' }}
                                     onClick={handleSendCrypto}
+                                    
                                 >
                                     Send Etherium
                                 </ColorButton>
+                                {isLoading ? <mui.LinearProgress color="inherit" sx={{height: '10px', borderRadius: '0 0 10px 10px', marginTop: '-7px'}} /> : null}
                         </mui.Box>
                     </mui.Grid>
                 </mui.Grid>
